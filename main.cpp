@@ -6,3 +6,5 @@ int main(){
     permitate.GenerateWordlist();
     return 0;
 }
+
+// nada a comentar aqui, ainda serão acrescentadas mais coisas

@@ -1,4 +1,4 @@
-### Gerador de Wordlist 
+## Gerador de Wordlist 
 
 Wordlists são grandes arquivos txt com muitos, centenas de milhares de strings,   
 que podem ser usados em ferramentas de brute force para tentar quebrar siste-    
@@ -18,7 +18,9 @@ O objetivo deste projeto é programar um gerador eficiente de wordlist partindo
 dessa premissa de permutação, gravação e manipulação de arquivos, combinações e    
 funções com recursividade de cauda visando maior desempenho nesse sistema.
 
-#### Linguagens usadas
+---
+
+### Linguagens usadas
 A ideia é usar C++ pra praticar a linguagem e gerar um binário fechado, o que   
 não faz diferença nenhuma do ponto de vista de proteção do código até porque    
 ele está público no github.
@@ -26,3 +28,15 @@ ele está público no github.
 Lua foi adotada para desenvolvimento da lógica da permutação, uma vez que o C++   
 exige ser recompilado a cada alteração, poupando muito tempo de desenvolvimento   
 visto a velocidade de testar e validar os scripts em lua.
+
+---
+
+### Documentação do projeto
+Todos os scritps foram o mais comentados e documentados o possível. De acordo com os
+padrões de cada linguagem e a necessidade de cada arquivo para essa documentação.
+
+Talvez fosse melhor deixar o texto documental do desenvolvimento da lógica
+em outro arquivo, como um txt, nao no arquivo script.lua que foi usado pra desenvolver
+a lógica, porém decidi manter assim já que esse é apenas um projeto de estudo, assim
+é possivel entender o processo real de desenvolvimento do projetinho.
+

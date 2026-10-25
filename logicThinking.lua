@@ -149,6 +149,10 @@
 -- ============================================================================
 
 
+WordCounter = 0;                                -- inicia o contador que contrala o limite de strings a serem geradas
+local saida = {}                                -- string standard/ default
+
+
 -- abaixo o desenvolvimento da lógica da função de spin em lua, pela agilidade de teste e desenvolvimento
 -- do algoritmo sem a necessidade de recompilar a cada alteração.
 local function spin(option)                     -- recebemos apenas o indice a ser spinado
@@ -159,11 +163,48 @@ end
 
 
 -- essa função serve para gerenciamento de cada word sendo gerada
-local function word(casas, options, limite)
+local function word(saida, casas, options, posicao, limite)
+    if WordCounter >= limite then               -- verefica se atingiu o limite de linhas a gerar
+        return
     
-    local saida = {'-', '-'}                    -- string standard/ default
-    local WordCounter = 1;                      -- inicia o contador que contrala o limite de strings a serem geradas
+    elseif posicao > casas then                 -- verifica que todas as casas estão preenchidas, printa a word completa
+        WordCounter = WordCounter + 1           -- adiciona 1 a contagem de linhas criadas
+        print(table.concat(saida))              -- printa cada combinação possível     
+        return                         
+    end    
 
+    for j=1, options do                                 -- laço de repetição por todas as opções
+        saida[posicao] = spin(j)                        -- coloca opção em cada uma das posições
+        word(saida, casas, options, posicao + 1, limite)-- chama recursivamente a proxima posição
+    end
+end
+
+
+-- aqui será desenvolvida a lógica função core para fins de testes rápidos sem a necessidade de recompilar 
+-- a cada alteração
+local function core()
+    local quantidadeLinhas = 2;                 -- define o limite de strings a imprimir
+    local quantidadeCasas = 2;                  -- define a quantidade de casa que as strings vão ter - quantidade fixa, 
+                                                -- 3 unidades é {aaa, aab}, NÃO {a, aa, aaa, aab}
+    
+    local quantidadeOpcoes = 4;                 -- quantidade de opções que serão iteradas no charset - segue a ordem 
+                                                -- declarada no charset
+
+    word(saida, quantidadeCasas, quantidadeOpcoes, 1, quantidadeLinhas)
+end
+
+
+-- ============================================================================
+--[[ Verdade seja dita, eu cheguei perto de conseguir alcançar o algoritmo, mas acabei buscando auxílio
+    do GPT para conseguir implementar a recursão. 
+
+    A permutação com laços hardcoded foi alcançada apenas praticando e buscando uma solução, porém eu tive
+    muita dificuldade na transmutação para a lógica recursiva dinâmica de processamento.
+
+    Exeplo abaixo usando laços estáticos no código, versão para gerador de 2 casas:
+
+    ----------------------------------------------------------------------------------------------
+    //                                                                                          //
     for i=1, options, 1 do                      -- laço inicial
         saida[1] = spin(i)
         for j=1, options, 1 do                  -- cada casa a mais na string abre um novo laço for que itera por tudo
@@ -180,21 +221,28 @@ local function word(casas, options, limite)
 
         end
     end                                         -- a regra de saída do loop é: quando saida[x], onde x = casas, então é o ultimo laço
+    //                                                                                          //
+    ----------------------------------------------------------------------------------------------
 
-end
+    Ainda assim serão necessários alguns ajustes no código para comportar o contador de linhas e limite de
+    linhas a serem geradas por exemplo
+]]
+-- ============================================================================
 
 
--- aqui será desenvolvida a lógica função core para fins de testes rápidos sem a necessidade de recompilar 
--- a cada alteração
-local function core()
-    local quantidadeLinhas = 8;                 -- define o limite de strings a imprimir
-    local quantidadeCasas = 4;                  -- define a quantidade de casa que as strings vão ter - quantidade fixa, 
-                                                -- 3 unidades é {aaa, aab}, NÃO {a, aa, aaa, aab}
-    
-    local quantidadeOpcoes = 4;                 -- quantidade de opções que serão iteradas no charset - segue a ordem 
-                                                -- declarada no charset
+-- ============================================================================
+--[[ No final das contas a função core apenas comporta as variáveis de configuração, enqaunto spin é só um 
+    distribuidor controlado externamente, e a lógica de recursão fica dentro de word. principalemnte aqui no
+    Lua com seus recursos mais limitados de passagem de ponteiro e etc.
 
-    word(quantidadeCasas, quantidadeOpcoes, quantidadeLinhas)
-end
+    Acontece que a grande mudança no algoritmo, qual eu ainda não tenha solucionado, que a IA me passou, foi 
+    a implementação de um contador de posição, para só printar cada pavra depois de correr ela toda recursivamente,
+    além do posicionamento correto dos blocos de codigo pra tornar a permutação 100% funcional igual estava a 
+    hardcoded - eu estava conseguindo roletar apenas 1 casa por vez, gerando algo como {a, b, c, d, ad, bd, cd, bd}
+    ,onde as casas passadas travavam em "d" e as acas ainda não acessadas a esquerda ficavam em branco.
+
+    Agora a lógica está concluida, foi usado um poco de IA sim, mas agora vamos passar isso para o C++ sem udo de IA.
+]]
+-- ============================================================================
 
 core()

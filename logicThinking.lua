@@ -69,30 +69,132 @@
 -- ============================================================================
 
 
+-- ============================================================================
+--[[ o que deve acontecer aqui dentro (do spin) é que devemos iterar as possibilidades de todas as 
+    casas, essa é a função do spin - para fazer isso pode ser que seja interessante fazer com que 
+    o output seja na verdade um array que comporte cada char em um índice.
+]]
+-- ============================================================================
+
+
+-- ============================================================================
+--[[ seria interessante por exemplo, cria um array com o tamanho da string desejada, no caso pro 
+    objetivo incial do projeto seria uma string de 6 caracteres, ou um array de 6 índices.
+    Prescisamos fazer isso recursivo de modo que, ele busca sempre o ultimo indice do arrei e itera 
+    ele por todas as opções possíveis, o recrusivo recebe o arranjo e itera o ultimo denovo, até 
+    que o array fique vazio.
+
+    
+    essa função deveria funcionar como, programando em hopeNG: 
+    
+    dec spin : list num # list num -> list num;
+    --- spin([], newlist) <- newlist;
+    --- spin(list, newlist) <- spint(arranjo(list), newlist++[iterar(ultimo(list))]);
+    
+    
+    explorando isso podemos perceber que temos algumas operações embutidas nesse pensamento, e ainda
+    temos 1 problema primordial.
+
+    
+    Falando sobre as operações, para que a recursividade funcione prescisamos de funções para acessar
+    o último e o arranjo do array que comporta o output, além disso é necessário uma função de iteração
+    que faria o papel dos laços "for".
+
+    
+    O grande problema é que a cada iteração ele prescisa ser printado no arquivo, além disso será neces-
+    sario um mecanismo que faça a iteração de maneira mais distribuida, por do modo como esta, funcionaria
+    no começo, mas haveriam combinaçẽos perdidas no meio do caminho, como por exemplo, com 3 casas 4 opções
+    por casa, de "a" até "d", aaa, aab, aac, isso funciona, mas não teriamos, bba ou mesmo bab seguindo essa
+    lógica.
+
+    
+    Ou seja, é necssário um mecanismo que alem de iterar, intercale as iterações, e além disso, que 
+    também print a cada iteração que acontece.
+]]
+-- ============================================================================
+
+
+-- ============================================================================
+--[[ Estive conversando um pouco com o GPT, a minha lógica tem ainda alguns problemas, provavelmente
+    teremos de implementar algum intermediário entre o core e o spin, deixando o core para gerenciar
+    a quebra de linhas entre strings, fazer um intermediador para gerir cada string e deixar o spin
+    para cuidar de cada casa.
+]]
+-- ============================================================================
+
+
+-- ############################################################################
+-- ############################################################################
+-- ############################################################################
+--[[ Depois de conversar mais um pouco com o GPT eu consegui fazer a permutação acontecer corretamente,
+    o que acontece é que o spin é apenas um seletor, para que possa ser acessado apartir do iterador de
+    um laço "for" qualquer.
+
+    Enquanto isso o word é uma função responável por gerenciar cada palavra, onde ele implementa aquela
+    questão de 1 laço para cada caractere da string de output que está documentado lá no começo desse 
+    mesmo arquivo.
+
+    Word também faz o controle do limite de strings a serem gerados de acorcom o contador local comparado
+    ao valor limite que posteriormente sera informado pelo usuário.
+]]
+-- ############################################################################
+-- ############################################################################
+-- ############################################################################
+
+
+-- ============================================================================
+--[[ Como próxima atividade podemos explorar como tonar a questão dos laços aninhados do word() algo 
+    recursivo e automatizado para que o usuário possa escolher o tamanho de string desejado.
+]]
+-- ============================================================================
+
+
+-- abaixo o desenvolvimento da lógica da função de spin em lua, pela agilidade de teste e desenvolvimento
+-- do algoritmo sem a necessidade de recompilar a cada alteração.
+local function spin(option)                     -- recebemos apenas o indice a ser spinado
+    local set = {'a', 'b', 'c', 'd'}            -- instanciando um charset local para testes
+
+    return set[option]                          -- retorna a opção de acordo com a iteração externa a função
+end
+
+
+-- essa função serve para gerenciamento de cada word sendo gerada
+local function word(casas, options, limite)
+    
+    local saida = {'-', '-'}                    -- string standard/ default
+    local WordCounter = 1;                      -- inicia o contador que contrala o limite de strings a serem geradas
+
+    for i=1, options, 1 do                      -- laço inicial
+        saida[1] = spin(i)
+        for j=1, options, 1 do                  -- cada casa a mais na string abre um novo laço for que itera por tudo
+
+                                                -- Toda a sequencia de linhas abaixo deve estar presente no laço mais interno
+            if(WordCounter > limite) then       -- verificador do limite de strings, deve estar presente no ultimo laço
+                return                          --
+            end                                 -- 
+                                                --
+            saida[2] = spin(j)                  -- iteração da casa
+                                                --
+            print(table.concat(saida))          -- printa cada combinação possível
+            WordCounter = WordCounter + 1       -- incrementa o contator de strings geradas
+
+        end
+    end                                         -- a regra de saída do loop é: quando saida[x], onde x = casas, então é o ultimo laço
+
+end
+
+
 -- aqui será desenvolvida a lógica função core para fins de testes rápidos sem a necessidade de recompilar 
 -- a cada alteração
-local function Core()
-    local quantidadeLinhas = 8;
-    local quantidadeCasas = 2;
-    local quantidadeOpcoes = 4;
-
-    for i=1, quantidadeLinhas, 1 do
-        local output = ""
-
-        for j=1, quantidadeCasas, 1 do
-            spin(output, quantidadeOpcoes)
-        end
-
-        print(output .. "\n")
-        output = ""
-    end
-end
-
--- abaixo o desenvolvimento da lógica da função de spin
-local function spin(output, options)
-    local set = {'a', 'b', 'c', 'd'}
+local function core()
+    local quantidadeLinhas = 8;                 -- define o limite de strings a imprimir
+    local quantidadeCasas = 4;                  -- define a quantidade de casa que as strings vão ter - quantidade fixa, 
+                                                -- 3 unidades é {aaa, aab}, NÃO {a, aa, aaa, aab}
     
-    for
+    local quantidadeOpcoes = 4;                 -- quantidade de opções que serão iteradas no charset - segue a ordem 
+                                                -- declarada no charset
+
+    word(quantidadeCasas, quantidadeOpcoes, quantidadeLinhas)
 end
 
--- tenho que pensar melhor nessa lógica, o projeto não esta printando nada na tela
+core()

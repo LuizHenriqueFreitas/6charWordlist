@@ -1,9 +1,8 @@
-#include <iostream>
 #include "core.hpp"
 
 int main(){
-    Core permitate = Core();
-    permitate.GenerateWordlist();
+    Core permutate = Core();
+    permutate.GenerateWordlist();
     return 0;
 }
 

@@ -1,45 +1,46 @@
 #include "core.hpp"
-#include "spin.hpp"
+#include "word.hpp"
 #include <iostream>
 #include <fstream>  // lib de manipulação de arquivos
 
 Core::Core(){}      // metodo sontrutor, vazio até o momento
 
 /// @brief 
-/// Essa classe processa a permutação de strings, recebe como parametros a quatidade de strings a calcular, assim como a 
-/// o tamanho que cada string deve ter.
+/// GenerateWordList cria o arquivo "wordlist.txt" e aloca ele para edição ao longo do programa.
+///
+/// Essa clásse chama o gerenciador de strings e configura as variáveis de ambiente do gerador, como quantidade de strings,
+/// quantidade de casas, quantidade de opções.
+
 /// @return 
 /// Retorna verdadeiro quando bem sucedido, e falso quando falha em criar/ acessar o arquivo de armazenamento da wordlist
 bool Core::GenerateWordlist()
 {    
-    Spin spin = Spin();                                 // instancia um objeto de gira - sera usado nas casas para permutação
+    Word word = Word();
     WordlistFile.open("wordlist.txt");                  // cria e abre o arquivo "wordlist.txt" para gravação
 
     // simples verificação se houve sucesso na criação do arquivo
     if (!WordlistFile.is_open()) {
-        std::cerr << "Não foi possível abrir o arquivo.\n";
+        std::cerr << "Não foi possível abrir o arquivo.\n";    // mensagem de erro em caso de falha ao criar ou abrir o arquivo .txt
         return false;
     }
 
     // essas variáveis devem ser declaradas no header posteriormente
-    int size = 6;
-    int numberOfStrings = 6;
+    int numberOfSlots = 6;                              // numero de casas de cada string
+    int numberOfOptions = 3;                            // numero de opções por casa
+    int numberOfStrings = 6;                            // numero de strings geradas
+    int stringCounter = 0;                              // contador de strings geradas
+    char output[numberOfSlots];                         // string de output - renovado a cada string
 
-    // aqui é o nucleo de processamento do permutador
-    for(int i =0; i < numberOfStrings; i++)             // cada linha do arquivo de wordlist
-    {
-        std::string string;                             // string que armazena os valores permitados
-        std::string* ptrOutput = & string;              // ponteiro para manipulação dessa string por diferentes objetos
-
-        for(int j=0; j < size; j++)                     // esse arqui deveria fazer a permutação de cada coluna, ou seja, cada caractere único
-        {
-            int counter = 0;                            // contador -  tenho que explorar mais filosoficamente o que ele conta
-            int* ptrCounter = &counter;                 // ponteiro para manipular o contador em diferentes lugares do sistema
-            spin.SpinSet(*ptrOutput, 2, *ptrCounter);   // chamada do metodo de giro da casa - pense nos peões do baú ou no funcionamento do tigrinho
-        }
-
-        WordlistFile << string << '\n';                 // concatena a string atual e quebra a linha
-    }
+    // chama o gerenciador de string da classe "word"
+    word.WordManager(WordlistFile,                      // manda como referencia o ofstream do arquivo de texto que será editado
+                    numberOfSlots-1,                    // manda a quantidade de casas por string | o -1 é necessário para ajustar o output correto
+                    numberOfOptions,                    // numero de opções
+                    0,                                  // posição começa em "0"
+                    numberOfStrings,                    // numero de strings máximo
+                    stringCounter,                      // contador de strings geradas
+                    output                              // variavel que armazena output a cada string
+    );
+    
     WordlistFile.close();                               // fecha o arquivo que estavamos trabalhando
     return true;                                        // retorna a função como verdadeira
 }

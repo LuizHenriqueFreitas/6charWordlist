@@ -1,12 +1,8 @@
 #pragma once
-
-#include <iostream>
-
 // aqui esta o charset de caracteres que serão permutados entre si
-/*
-    foram escolhidos 80 caracteres, 26 letras do alfabeto, maiúsculas e 
-    minúsculas + 10 numerais (de 0 a 9) e 14 carcteres especias (,!,@,#,$,%,¨,&,*,+,=,<,>,);  
-*/
+
+// foram escolhidos 80 caracteres, 26 letras do alfabeto, maiúsculas e 
+// minúsculas + 10 numerais (de 0 a 9) e 14 carcteres especias (,!,@,#,$,%,¨,&,*,+,=,<,>,);  
 
 const char charset[80] = {
     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',

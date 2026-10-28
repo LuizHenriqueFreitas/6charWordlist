@@ -1,9 +1,7 @@
-#include "core.hpp"
+#include "cli.hpp"
 
 int main(){
-    Core permutate = Core();
-    permutate.GenerateWordlist();
+    Cli interface = Cli();
+    interface.MainMenuOptionsBackend();
     return 0;
 }
-
-// nada a comentar aqui, ainda serão acrescentadas mais coisas

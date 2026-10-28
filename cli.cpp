@@ -2,7 +2,10 @@
 #include "core.hpp"
 #include <iostream>
 
-Cli::Cli(){};
+Cli::Cli()
+{
+    engine = Core();                        // instancia um objeto Core
+};
 
 
 //=========================================================================
@@ -39,18 +42,31 @@ void Cli::setNumberString(int input) {
 //=========================================================================
 
 // metodo para facilitar prints no terminal
+
 void Cli::PrintLine(std::string line)
 {
     std::cout << line << std::endl;
 }
 
+
+// variacão que concatena 3 strings e imprime na mesma linha
+
+void Cli::PrintLine(std::string line1, std::string line2, std::string line3)
+{
+    std::cout << line1 << line2 << line3 << std::endl;
+}
+
+
 // variação para imprimir com uma variavel no meio do texto
+
 void Cli::PrintLine(std::string line1, int var, std::string line2)
 {
     std::cout << line1 << var << line2 << std::endl;
 }
 
+
 // variação para imprimir com duas variaveis no meio do texto
+
 void Cli::PrintLine(std::string line1, int var1, std::string line2, int var2, std::string line3)
 {
     std::cout << line1 << var1 << line2 << var2 << line3 << std::endl;
@@ -59,7 +75,9 @@ void Cli::PrintLine(std::string line1, int var1, std::string line2, int var2, st
 
 //-------------------------------------------------------------------------
 
+
 // facilitador de input para numeros inteiros
+
 int Cli::GetIntInput()
 {
     int n;
@@ -100,19 +118,6 @@ void Cli::SetWordlistConfig()
 
 void Cli::WordlistFileCalcSize()
 {
-    /*
-        implementar uma classe matematica - onde deveremos implementar o calculo matematico
-        de char ^ option, depois tem que incluir o contador de tamanho da string e depois multiplicar
-        pela quantidade de strings
-
-        um lugar bom pra implementar isso é no core.cpp
-    */
-    int totalFileSize, limitedFileSize;
-    
-    //totalFileSize = chamar função de calculo;
-    //limitedFileSize = mesma coisa, chama função que calcula;
-    //interessante fazer uma função que converta bytes em bites, MBs, GBs e TBs
-
     PrintLine("===================================================================================");
     PrintLine("O arquivo wordlist e um arquivo .txt que contem uma lista de palavras, cada linha  ");
     PrintLine("possui apenas uma palavra.");
@@ -128,11 +133,19 @@ void Cli::WordlistFileCalcSize()
     PrintLine(", todos da tabela ASCII. Um string de 6 caracteres + quebra de linha, teria 7 bytes");
     PrintLine("Portanto...");
     PrintLine("O arquivo com ", getNumberChar(), "caracteres e ", getNumberOption(), "opcoes.");
-    PrintLine("Teria próximo de: ", limitedFileSize, ".");  // tem que encontrar uma forma de converter o tamanho de bytes pra Mb ou Gb, o que for necessario
-                                                            // o sistema deve ser dinamico quanto ao tamanho e mostrar de acordo com o tamanho estimado
+    PrintLine("Teria próximo de: ", engine.ConvertFileBytes(
+                                                            engine.CalculateFileSize(getNumberChar(), 
+                                                                                    getNumberOption(), 
+                                                                                    getNumberString(), 
+                                                                                    1
+                                                            )), ".");
     PrintLine("Gerar todas as combinacoes possiveis para essa configuracao, geraria um arquivo com");
-    PrintLine("aproximadamente: ", totalFileSize, ".");     // tem que encontrar uma forma de converter o tamanho de bytes pra Mb ou Gb, o que for necessario
-                                                            // o sistema deve ser dinamico quanto ao tamanho e mostrar de acordo com o tamanho estimado
+    PrintLine("aproximadamente: ", engine.ConvertFileBytes(
+                                                            engine.CalculateFileSize(getNumberChar(), 
+                                                                                    getNumberOption(), 
+                                                                                    getNumberString(), 
+                                                                                    0
+                                                            )), ".");
     PrintLine(" ");
     PrintLine("O calculo feito para saber o tamnho dos arquivos é: ");
     PrintLine("     |- Quantidade variações = nº de caracteres, elevado a quantidade de opções;");
@@ -145,6 +158,7 @@ void Cli::WordlistFileCalcSize()
 
 
 // printa o menu pricipal do sistema
+
 void Cli::PrintMainMenu()
 {
     PrintLine("===================================================================================");
@@ -184,7 +198,6 @@ void Cli::MainMenuOptionsBackend()
 
     while(option != 3)                      // enquanto a opçao selecionada NÂO for = 3
     {
-        Core engine = Core();               // instancia um objeto Core
 
         PrintMainMenu();                    // printa o menu principal no terminal
      

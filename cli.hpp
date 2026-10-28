@@ -3,6 +3,7 @@
 #ifndef __CLI_HPP
 #define __CLI_HPP
 
+#include "core.hpp"
 #include <iostream>
 
 class Cli {
@@ -20,6 +21,10 @@ private:
     int numberOfStrings;
 
 public:
+    /// @brief 
+    /// armazena um objeto Core para realizar as operaçẽos de cálculos e geração do arquivo
+    Core engine;
+
     /// @brief 
     /// armazena o contador de strings geradas para fazer o controle de acordo com o limite desejado
     int stringCounter;
@@ -76,7 +81,7 @@ public:
 
     // facilitador de print no terminal
     // PrintLine() foi desenvolvida para facilitar o print do C++ nesse projeto
-    // suas 3 variações foram desenvolvidas de acordo com a demanda deste projeto
+    // suas 4 variações foram desenvolvidas de acordo com a demanda deste projeto
     // não suprem todas as necessidades existentes de uma função print completa.
     
     /// @brief 
@@ -86,7 +91,17 @@ public:
     void PrintLine(std::string line);
 
     /// @brief 
-    /// Printa 1 linha no terminal e quebra linha.
+    /// Printa 1 linha no terminal e quebra linha. Essa variação concatena 3 strings na mesma linha.
+    /// @param line1 
+    /// recebe uma string qualquer
+    /// @param line2 
+    /// recebe uma string qualquer
+    /// @param line3 
+    /// recebe uma string qualquer
+    void PrintLine(std::string line1, std::string line2, std::string line3);
+
+    /// @brief 
+    /// Printa 1 linha no terminal e quebra linha. Essa variação concatena 1 variável inteira entre 2 strings na mesma linha.
     /// @param line1 
     /// Recebe uma string qualquer
     /// @param var 
@@ -96,7 +111,8 @@ public:
     void PrintLine(std::string line1, int var, std::string line2);
 
     /// @brief 
-    /// Printa 1 linha no terminal e quebra linha.
+    /// Printa 1 linha no terminal e quebra linha. Essa variação concatena interacaladamente, 
+    /// 3 strings e 2 variáveis inteiras na mesma linha.
     /// @param line1 
     /// Recebe uma string qualquer
     /// @param var1
@@ -109,7 +125,8 @@ public:
     /// Recebe uma string qualquer
     void PrintLine(std::string line1, int var1, std::string line2, int var2, std::string line3);
 
-    
+    //------------------------------------------------------------
+
     /// @brief 
     /// Captura a entrada do usuário para valores inteiros
     /// @return 

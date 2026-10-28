@@ -1,19 +1,73 @@
 #include "core.hpp"
 #include "word.hpp"
 #include <iostream>
+#include <sstream>
+#include <iomanip>
+#include <cmath>
 #include <fstream>  // lib de manipulação de arquivos
 
 Core::Core(){}      // metodo sontrutor, vazio até o momento
 
-/// @brief 
-/// GenerateWordList cria o arquivo "wordlist.txt" e aloca ele para edição ao longo do programa.
-///
-/// Essa clásse chama o gerenciador de strings e configura as variáveis de ambiente do gerador, como quantidade de strings,
-/// quantidade de casas, quantidade de opções.
+//======================================================================================
+// CALCULATORS
+//======================================================================================
 
-/// @return 
-/// Retorna verdadeiro quando bem sucedido, e falso quando falha em criar/ acessar o arquivo de armazenamento da wordlist
-bool Core::GenerateWordlist()
+// optei por fazer apenas uma função de calculo com um parâmetro de controle "type", para evitar
+// ficar repetendi código, uma vez que as 2 teriam que calcular o string size
+
+long int Core::CalculateFileSize(int numberOfSlots, int numberOfOptions, int numberOfStrings, int type)
+{
+    int stringSize = numberOfSlots + 1;
+    int bytesSize;
+    if (type == 0)
+    {
+        int variations = pow(numberOfSlots, numberOfOptions);
+        bytesSize = variations * stringSize;
+
+        return bytesSize;
+    }
+    else if (type == 1)
+    {
+        bytesSize = numberOfStrings * stringSize;
+        return bytesSize;
+    } 
+    else
+    {
+        return -1;
+    }
+}
+
+
+//======================================================================================
+
+std::string Core::ConvertFileBytes(long int fileSizeBytes)
+{
+    int size = 0;
+
+    const char* units[] = {
+        "B", "kB", "MB", "GB", "TB", "PB", "EB", "ZB"
+    };
+
+    while(fileSizeBytes >= 1000.0 && size < 6)
+    {
+        fileSizeBytes /= 1000.0;
+        size++;
+    }
+
+    std::ostringstream result;
+    result << std::fixed << std::setprecision(2)
+            << fileSizeBytes << "" << size[units];
+
+    return result.str();
+}
+
+//======================================================================================
+// GENERATORS
+//======================================================================================
+
+// essa função faz a geração e controle de permutação do arquivo wordlist.txt
+
+bool Core::GenerateWordlist(int numberOfSlots, int numberOfOptions, int numberOfStrings)
 {    
     Word word = Word();
     WordlistFile.open("wordlist.txt");                  // cria e abre o arquivo "wordlist.txt" para gravação
@@ -24,10 +78,7 @@ bool Core::GenerateWordlist()
         return false;
     }
 
-    // essas variáveis devem ser declaradas no header posteriormente
-    int numberOfSlots = 6;                              // numero de casas de cada string
-    int numberOfOptions = 3;                            // numero de opções por casa
-    int numberOfStrings = 6;                            // numero de strings geradas
+    // variáveis internas de controle
     int stringCounter = 0;                              // contador de strings geradas
     char output[numberOfSlots];                         // string de output - renovado a cada string
 

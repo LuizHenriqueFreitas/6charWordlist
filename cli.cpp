@@ -154,9 +154,9 @@ void Cli::PrintMainMenu()
     PrintLine("usando como possiveis caracteres:");
     PrintLine("    ->> Todas as 26 letras do alfabeto, maiusculas e minusculas.");
     PrintLine("    ->> Numerais de 0 a 9");
-    PrintLine("    ->> uma selecao de 14 caracteres especiais, como !@#$%&*+- e outros");
+    PrintLine("    ->> uma selecao de 22 caracteres especiais, como !@#$%&*+- e outros");
     PrintLine("    ||> esses caracteres acontecem em ordem determinada fixa, assim como descrito");
-    PrintLine("    ||> totalizando (neste sistema), o maximo de 80 possiveis opcoes por caractere");
+    PrintLine("    ||> totalizando (neste sistema), o maximo de 84 possiveis opcoes por caractere");
     PrintLine("  ");
     PrintLine("-----------------------------------------------------------------------------------");
     PrintLine("  ");

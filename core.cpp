@@ -4,6 +4,7 @@
 #include <sstream>
 #include <iomanip>
 #include <cmath>
+#include <cstdint>
 #include <fstream>  // lib de manipulação de arquivos
 
 Core::Core(){}      // metodo sontrutor, vazio até o momento
@@ -15,13 +16,13 @@ Core::Core(){}      // metodo sontrutor, vazio até o momento
 // optei por fazer apenas uma função de calculo com um parâmetro de controle "type", para evitar
 // ficar repetendi código, uma vez que as 2 teriam que calcular o string size
 
-long int Core::CalculateFileSize(int numberOfSlots, int numberOfOptions, int numberOfStrings, int type)
+std::uint64_t Core::CalculateFileSize(int numberOfSlots, int numberOfOptions, int numberOfStrings, int type)
 {
     int stringSize = numberOfSlots + 1;
-    int bytesSize;
+    std::uint64_t bytesSize;
     if (type == 0)
     {
-        int variations = pow(numberOfSlots, numberOfOptions);
+        std::uint64_t variations = pow(numberOfOptions, numberOfSlots);
         bytesSize = variations * stringSize;
 
         return bytesSize;

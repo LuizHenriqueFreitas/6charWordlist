@@ -73,6 +73,14 @@ void Cli::PrintLine(std::string line1, int var1, std::string line2, int var2, st
 }
 
 
+// variação para imprimir com duas variaveis no meio do texto
+
+void Cli::PrintLine(std::string line1, int var1, std::string line2, int var2, std::string line3, int var3, std::string line4)
+{
+    std::cout << line1 << var1 << line2 << var2 << line3 << var3 << line4 << std::endl;
+}
+
+
 //-------------------------------------------------------------------------
 
 
@@ -91,6 +99,16 @@ int Cli::GetIntInput()
     return n;                                       // retorna entrada do usuário
 }
 
+//-------------------------------------------------------------------------
+
+// segura o fluxo do programa para o usário conseguir ler o terminal.
+
+void Cli::Wait()
+{
+    std::cout << "Pressione ENTER para continuar...\n";
+    std::cin.ignore(80, '\n');
+    std::cin.get();
+}
 
 //=========================================================================
 // MENUS / TELAS
@@ -132,7 +150,7 @@ void Cli::WordlistFileCalcSize()
     PrintLine("Esse sistema contem apenas 80 caracteres diferentes, apresentados na tela principal");
     PrintLine(", todos da tabela ASCII. Um string de 6 caracteres + quebra de linha, teria 7 bytes");
     PrintLine("Portanto...");
-    PrintLine("O arquivo com ", getNumberChar(), "caracteres e ", getNumberOption(), "opcoes.");
+    PrintLine("O arquivo com ", getNumberChar(), " caracteres e ", getNumberOption(), " opcoes e ", getNumberString(), " linhas.");
     PrintLine("Teria próximo de: ", engine.ConvertFileBytes(
                                                             engine.CalculateFileSize(getNumberChar(), 
                                                                                     getNumberOption(), 
@@ -209,6 +227,7 @@ void Cli::MainMenuOptionsBackend()
                                             //
                 SetWordlistConfig();        // seta variáveis de controle da lista
                 WordlistFileCalcSize();     // printa a tela sobre tamanho estimado do arquivo
+                Wait();
                 break;
 
             case 2:                                         // opção 2

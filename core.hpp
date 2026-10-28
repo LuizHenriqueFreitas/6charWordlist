@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <cstdint>
 
 class Core 
 {
@@ -33,7 +34,7 @@ public:
     /// Define se a função deve calcular o peso de um arquivo que gere todas as combinações possiveis (0)
     /// ou se o peso do arquivo com a quantidade de strings definida pelo usuário (1).
     /// @return 
-    long int CalculateFileSize(int numberOfSlots, int numberOfOptions, int numberOfStrings, int type);
+    std::uint64_t CalculateFileSize(int numberOfSlots, int numberOfOptions, int numberOfStrings, int type);
 
     
     //======================================================================================

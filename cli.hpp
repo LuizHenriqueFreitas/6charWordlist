@@ -125,6 +125,25 @@ public:
     /// Recebe uma string qualquer
     void PrintLine(std::string line1, int var1, std::string line2, int var2, std::string line3);
 
+    /// @brief 
+    /// Printa 1 linha no terminal e quebra linha. Essa variação concatena interacaladamente, 
+    /// 4 strings e 3 variáveis inteiras na mesma linha.
+    /// @param line1 
+    /// Recebe uma string qualquer
+    /// @param var1
+    /// Recebe qualquer valor inteiro
+    /// @param line2 
+    /// Recebe uma string qualquer
+    /// @param var2
+    /// Recebe qualquer valor inteiro
+    /// @param line3
+    /// Recebe uma string qualquer
+    /// @param var3 
+    /// Recebe qualquer valor inteiro
+    /// @param line4 
+    /// Recebe uma string qualquer
+    void PrintLine(std::string line1, int var1, std::string line2, int var2, std::string line3, int var3, std::string line4);
+
     //------------------------------------------------------------
 
     /// @brief 
@@ -133,6 +152,10 @@ public:
     /// Retorna um valor inteiro qualquer
     int GetIntInput();                                  // facilita a entrada de dados do tipo "int
 
+
+    /// @brief 
+    /// Pausa o fluxo do programa para que o usuário possa ler o terminal, ao receber um input permite o programa continuar.
+    void Wait();
 
     //============================================================
     // MENUS E TELAS

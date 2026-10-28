@@ -105,9 +105,9 @@ int Cli::GetIntInput()
 
 void Cli::Wait()
 {
-    std::cout << "Pressione ENTER para continuar...\n";
-    std::cin.ignore(80, '\n');
-    std::cin.get();
+    std::cout << "Pressione ENTER para continuar...\n";         // mensagem de feedback ao usuário
+    std::cin.ignore(80, '\n');                                  // limpa buffer do teclado
+    std::cin.get();                                             // espera interação do usuário
 }
 
 //=========================================================================
@@ -227,7 +227,7 @@ void Cli::MainMenuOptionsBackend()
                                             //
                 SetWordlistConfig();        // seta variáveis de controle da lista
                 WordlistFileCalcSize();     // printa a tela sobre tamanho estimado do arquivo
-                Wait();
+                Wait();                     // pausa o fluxo do programa para que o usuário consiga ler as informações
                 break;
 
             case 2:                                         // opção 2

@@ -13,53 +13,56 @@ Core::Core(){}      // metodo sontrutor, vazio até o momento
 // CALCULATORS
 //======================================================================================
 
-// optei por fazer apenas uma função de calculo com um parâmetro de controle "type", para evitar
-// ficar repetendi código, uma vez que as 2 teriam que calcular o string size
+// optei por fazer apenas uma função de calculo com um parâmetro de controle "total", para evitar
+// ficar repetendi código, uma vez que as 2 teriam que calcular o string size, true calcula total, false calcula com base na quantidade de strings desejadas.
 
-std::uint64_t Core::CalculateFileSize(int numberOfSlots, int numberOfOptions, int numberOfStrings, int type)
+std::uint64_t Core::CalculateFileSize(int numberOfSlots, int numberOfOptions, int numberOfStrings, bool total)
 {
-    int stringSize = numberOfSlots + 1;
-    std::uint64_t bytesSize;
-    if (type == 0)
+    int stringSize = numberOfSlots + 1;                     // calcula o tamnho de uma string individual + quebra de linha
+    std::uint64_t bytesSize;                                // instancia a variável que vai armazenar o tamanho em bytes
+    
+    // calcula o tamanho total com todas as variações possíveis
+    if (total)  
     {
-        std::uint64_t variations = pow(numberOfOptions, numberOfSlots);
-        bytesSize = variations * stringSize;
+        std::uint64_t variations = pow(numberOfOptions, numberOfSlots); // calcula a quantidade de variações possíveis 
+                                                                        // <Numero de opções> elevado ao <Numero de caracteres> por palavras da lista
+        bytesSize = variations * stringSize;                // multiplica o peso de 1 string pela quantidade de variações possíveis
 
-        return bytesSize;
+        return bytesSize;                                   // retorna o peso esperado em bytes - posteriormente sera formatado de acordo com seu nível de grandeza
     }
-    else if (type == 1)
+    // calcula o tamanho do arquivo gerando apenas a quantidade de strings desejada
+    else                                   
     {
-        bytesSize = numberOfStrings * stringSize;
-        return bytesSize;
+        bytesSize = numberOfStrings * stringSize;           // multiplica a quantidade de strings desejada pelo peso de 1 string
+        return bytesSize;                                   // retorna o peso esperado em bytes - posteriormente sera formatado de acordo com seu nível de grandeza
     } 
-    else
-    {
-        return -1;
-    }
 }
 
 
 //======================================================================================
 
+// projetado para formatar o tamanho em bytes de acordo com sua ordem de grandeza para melhor visualização
+
 std::string Core::ConvertFileBytes(long int fileSizeBytes)
 {
-    int size = 0;
+    int size = 0;                                           // variável local facilitar operação e selecionar a unidade correta
 
-    const char* units[] = {
+    const char* units[] = {                                 // lista de unidade/nomeclaturas em ordem de grandeza crescente
         "B", "kB", "MB", "GB", "TB", "PB", "EB", "ZB"
     };
 
+    // detecta em que nivel de grandeza está
     while(fileSizeBytes >= 1000.0 && size < 6)
     {
-        fileSizeBytes /= 1000.0;
-        size++;
+        fileSizeBytes /= 1000.0;                        // sobe 1 nivel de grandeza
+        size++;                                         // ajusta o seletor de unidade
     }
 
+    // formata saída
     std::ostringstream result;
-    result << std::fixed << std::setprecision(2)
-            << fileSizeBytes << "" << size[units];
+    result << std::fixed << std::setprecision(2) << fileSizeBytes << "" << size[units];
 
-    return result.str();
+    return result.str();                                // returna string formatada com tamanho correto e unidade de medida
 }
 
 //======================================================================================
